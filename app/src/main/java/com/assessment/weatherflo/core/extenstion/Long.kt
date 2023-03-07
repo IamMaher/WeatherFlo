@@ -1,9 +1,7 @@
 package com.assessment.weatherflo.core.extenstion
 
 import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
-import java.util.TimeZone
+import java.util.*
 
 fun Long.toDateTime(format: String, zoneId: Int? = null): String {
     val date = Date().apply {

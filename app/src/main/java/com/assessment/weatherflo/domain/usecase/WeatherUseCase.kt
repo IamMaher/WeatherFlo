@@ -7,7 +7,8 @@ import com.assessment.weatherflo.data.repository.WeatherRepository
 import com.assessment.weatherflo.domain.weather.entity.WeatherRecord
 import javax.inject.Inject
 
-class WeatherUseCase @Inject constructor(private val weatherRepository: WeatherRepository) : UseCase<WeatherRecord, WeatherUseCase.Params>() {
+class WeatherUseCase @Inject constructor(private val weatherRepository: WeatherRepository) :
+    UseCase<WeatherRecord, WeatherUseCase.Params>() {
     override suspend fun run(params: Params): Either<Failure, WeatherRecord> = weatherRepository.weather(params.queries)
     data class Params(val queries: Map<String, String>)
 }

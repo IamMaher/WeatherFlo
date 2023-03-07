@@ -1,6 +1,6 @@
 package com.assessment.weatherflo.domain.weather.entity
 
-import java.util.Date
+import java.util.*
 
 data class WeatherRecord(
     val time: Date,

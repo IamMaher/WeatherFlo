@@ -1,12 +1,12 @@
 package com.assessment.weatherflo.data.remote.dto
 
 
-import com.squareup.moshi.Json
 import com.assessment.weatherflo.core.extenstion.toDateTime
 import com.assessment.weatherflo.core.functional.Constants
 import com.assessment.weatherflo.domain.weather.entity.WeatherRecord
 import com.assessment.weatherflo.domain.weather.entity.WeatherType
-import java.util.Date
+import com.squareup.moshi.Json
+import java.util.*
 
 data class WeatherDto(
     @field:Json(name = "base") val base: String = "",

@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">WeatherFlo</string>
+    <string name="current_weather_tab">Current weather</string>
+    <string name="unknown_address">Unknown address</string>
+    <string name="celsius_high_low">H %1$s \u2103 / L %2$s \u2103</string>
+    <string name="fahrenheit_high_low">H %1$s \u2109 / L %2$s \u2109</string>
+    <string name="meter_per_second">%1$s m/s</string>
+    <string name="miles_per_hour">%1$s miles/h</string>
+    <string name="humidity">Humidity</string>
+    <string name="humidity_per_cent">%1$s%%</string>
+    <string name="sunrise">Sunrise</string>
+    <string name="wind">Wind</string>
 </resources>
