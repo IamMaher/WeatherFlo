@@ -1,4 +1,4 @@
-package com.assessment.weatherflo.presentation
+package com.assessment.weatherflo.presentation.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -91,8 +91,7 @@ fun MainScreen(
             MainContent(
                 modifier = Modifier.alpha(contentAlpha),
                 topPadding = contentTopPadding,
-                onLocationSelectedClicked = onLocationSelectionClicked,
-                viewModel = mainViewModel
+                onLocationSelectedClicked = onLocationSelectionClicked
             )
         }
     }
@@ -103,7 +102,6 @@ private fun MainContent(
     modifier: Modifier = Modifier,
     topPadding: Dp = 0.dp,
     onLocationSelectedClicked: () -> Unit,
-    viewModel: MainViewModel
 ) {
 
     Column(modifier = modifier) {
@@ -111,7 +109,6 @@ private fun MainContent(
         Dashboard(
             onLocationClicked = onLocationSelectedClicked,
             modifier = modifier,
-            viewModel = viewModel
         )
     }
 }

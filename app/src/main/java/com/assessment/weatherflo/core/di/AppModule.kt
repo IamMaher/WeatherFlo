@@ -1,9 +1,9 @@
 package com.assessment.weatherflo.core.di
 
 import android.app.Application
+import com.assessment.weatherflo.data.remote.WeatherApi
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.assessment.weatherflo.data.remote.WeatherApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,7 +24,9 @@ object AppModule {
         return Retrofit.Builder()
             .baseUrl(WeatherApi.BASE_URL)
             .addConverterFactory(MoshiConverterFactory.create())
-            .client(OkHttpClient.Builder().addInterceptor(HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BASIC }).build())
+            .client(
+                OkHttpClient.Builder().addInterceptor(HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BASIC }).build()
+            )
             .build()
     }
 

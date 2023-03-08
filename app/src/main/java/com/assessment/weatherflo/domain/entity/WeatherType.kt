@@ -1,4 +1,4 @@
-package com.assessment.weatherflo.domain.weather.entity
+package com.assessment.weatherflo.domain.entity
 
 import androidx.annotation.DrawableRes
 import com.assessment.weatherflo.R

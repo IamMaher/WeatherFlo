@@ -1,10 +1,10 @@
-package com.assessment.weatherflo.presentation.weather
+package com.assessment.weatherflo.presentation.forecast
 
 import android.Manifest
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.sharp.LocationOn
 import androidx.compose.material3.*
@@ -18,23 +18,22 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.assessment.weatherflo.R
-import com.assessment.weatherflo.domain.entity.weather.WeatherRecord
+import com.assessment.weatherflo.domain.entity.forecast.ForecastData
 import com.assessment.weatherflo.presentation.components.FullScreenLoading
 import com.assessment.weatherflo.presentation.dashboard.ContentUpdates
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import kotlinx.coroutines.Dispatchers
 
-
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
 @Composable
-fun Weather(modifier: Modifier, viewModel: WeatherViewModel = hiltViewModel(), contentUpdates: ContentUpdates) {
+fun Forecast(modifier: Modifier, viewModel: ForecastViewModel = hiltViewModel(), contentUpdates: ContentUpdates) {
     val state = viewModel.state
     val locationPermissionState = rememberMultiplePermissionsState(
         listOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
     ) { permissions ->
         when {
-            permissions.all { it.value } -> viewModel.getCurrentLocationWeather()
+            permissions.all { it.value } -> viewModel.getCurrentLocationForecast()
             else -> viewModel.permissionIsNotGranted()
         }
     }
@@ -42,7 +41,6 @@ fun Weather(modifier: Modifier, viewModel: WeatherViewModel = hiltViewModel(), c
     LaunchedEffect(Unit, Dispatchers.Default) {
         locationPermissionState.launchMultiplePermissionRequest()
     }
-
     Column(modifier = modifier) {
         Card(
             onClick = contentUpdates.onLocationSelectionClicked,
@@ -70,22 +68,47 @@ fun Weather(modifier: Modifier, viewModel: WeatherViewModel = hiltViewModel(), c
         }
 
         if (state.isLoading) FullScreenLoading()
-        state.data?.let { data -> WeatherContent(data) }
+        state.data?.let { data ->
+            ForecastContent(
+                forecastData = data.weatherList,
+                onClickExpandedItem = { viewModel.onClickExpandedItem(it) }
+            )
+        }
     }
 }
 
 @Composable
-fun WeatherContent(currentWeather: WeatherRecord) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
+fun ForecastContent(
+    forecastData: List<ForecastData>, onClickExpandedItem: (item: ForecastData) -> Unit = {}
+) {
+    ListWeatherDay(
+        modifier = Modifier.fillMaxSize(),
+        list = forecastData,
+        onClickExpandedItem = onClickExpandedItem
+    )
+}
+
+@Composable
+fun ListWeatherDay(
+    modifier: Modifier,
+    list: List<ForecastData> = emptyList(),
+    onClickExpandedItem: (item: ForecastData) -> Unit = {},
+) {
+    val paddingBottom = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+
+    LazyColumn(
+        modifier = modifier,
+        contentPadding = PaddingValues(bottom = paddingBottom + 10.dp),
     ) {
-        CurrentWeather(
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f),
-            currentWeather = currentWeather,
-        )
+        items(
+            items = list,
+            key = { item -> item.time },
+        ) { item ->
+            WeatherDayItem(
+                modifier = Modifier.fillMaxWidth(),
+                item = item,
+                onClickExpandedItem = onClickExpandedItem,
+            )
+        }
     }
 }

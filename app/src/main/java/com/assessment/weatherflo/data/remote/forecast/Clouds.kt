@@ -1,4 +1,4 @@
-package com.assessment.weatherflo.data.remote.dto
+package com.assessment.weatherflo.data.remote.forecast
 
 
 import com.squareup.moshi.Json

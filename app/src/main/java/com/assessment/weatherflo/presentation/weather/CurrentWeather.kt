@@ -11,7 +11,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.assessment.weatherflo.R
-import com.assessment.weatherflo.domain.weather.entity.WeatherRecord
+import com.assessment.weatherflo.domain.entity.weather.WeatherRecord
 
 @Composable
 fun CurrentWeather(

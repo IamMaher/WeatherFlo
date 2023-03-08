@@ -1,6 +1,6 @@
 package com.assessment.weatherflo.core.di
 
-import com.assessment.weatherflo.data.repository.WeatherRepository
+import com.assessment.weatherflo.data.repository.Repository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,5 +13,5 @@ class RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideWeatherRepo(dataSource: WeatherRepository.Network): WeatherRepository = dataSource
+    fun provideWeatherRepo(dataSource: Repository.Network): Repository = dataSource
 }

@@ -38,6 +38,13 @@ class DefaultLocationTracker @Inject constructor(
         if (!hasAccessCoarseLocationPermission || !hasAccessFineLocationPermission || !isGpsEnabled) {
             return null
         }
+
+        // Check for last known location
+        val lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER)
+        if (lastKnownLocation != null) {
+            return lastKnownLocation
+        }
+
         val cancellationTokenSource = CancellationTokenSource()
 
         return suspendCancellableCoroutine { cont ->

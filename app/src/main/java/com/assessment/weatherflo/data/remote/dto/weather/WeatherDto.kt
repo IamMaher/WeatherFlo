@@ -1,12 +1,11 @@
-package com.assessment.weatherflo.data.remote.dto
+package com.assessment.weatherflo.data.remote.dto.weather
 
 
 import com.assessment.weatherflo.core.extenstion.toDateTime
 import com.assessment.weatherflo.core.functional.Constants
-import com.assessment.weatherflo.domain.weather.entity.WeatherRecord
-import com.assessment.weatherflo.domain.weather.entity.WeatherType
+import com.assessment.weatherflo.domain.entity.WeatherType
+import com.assessment.weatherflo.domain.entity.weather.WeatherRecord
 import com.squareup.moshi.Json
-import java.util.*
 
 data class WeatherDto(
     @field:Json(name = "base") val base: String = "",
@@ -31,7 +30,7 @@ data class WeatherDto(
 
 fun WeatherDto.toWeatherRecord(): WeatherRecord {
     return WeatherRecord(
-        time = Date(dt),
+        time = dt.times(1000).toDateTime(Constants.DateFormat.EE_MM_dd),
         tempMax = main.tempMax,
         tempMin = main.tempMin,
         temp = main.temp.toString(),

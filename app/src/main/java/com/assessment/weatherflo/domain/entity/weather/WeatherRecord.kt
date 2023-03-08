@@ -1,9 +1,9 @@
-package com.assessment.weatherflo.domain.weather.entity
+package com.assessment.weatherflo.domain.entity.weather
 
-import java.util.*
+import com.assessment.weatherflo.domain.entity.WeatherType
 
 data class WeatherRecord(
-    val time: Date,
+    val time: String,
     val tempMax: Double,
     val tempMin: Double,
     val temp: String,
