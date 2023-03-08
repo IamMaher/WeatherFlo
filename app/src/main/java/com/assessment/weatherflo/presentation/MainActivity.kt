@@ -8,9 +8,6 @@ import androidx.compose.animation.core.Spring.StiffnessLow
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Surface
-import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
-import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -30,7 +27,6 @@ import com.assessment.weatherflo.ui.theme.WeatherFloTheme
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 
-@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
@@ -42,13 +38,11 @@ class MainActivity : ComponentActivity() {
         setContent {
             WeatherFloTheme {
                 rememberSystemUiController().setSystemBarsColor(color = Color.Transparent, darkIcons = !isSystemInDarkTheme())
-                val widthSizeClass = calculateWindowSizeClass(this).widthSizeClass
                 val navController = rememberNavController()
-                NavHost(navController = navController, startDestination = Routes.Home.route) {
-                    composable(Routes.Home.route) {
+                NavHost(navController = navController, startDestination = Routes.Dashboard.route) {
+                    composable(Routes.Dashboard.route) {
                         val mainViewModel = hiltViewModel<MainViewModel>()
                         MainScreen(
-                            widthSize = widthSizeClass,
                             onLocationSelectionClicked = {
                                 // todo navigate to select location screen
                             },
@@ -62,12 +56,11 @@ class MainActivity : ComponentActivity() {
 }
 
 sealed class Routes(val route: String) {
-    object Home : Routes("Dashboard")
+    object Dashboard : Routes("Dashboard")
 }
 
 @Composable
 fun MainScreen(
-    widthSize: WindowWidthSizeClass,
     onLocationSelectionClicked: () -> Unit,
     mainViewModel: MainViewModel
 ) {
@@ -98,7 +91,6 @@ fun MainScreen(
             MainContent(
                 modifier = Modifier.alpha(contentAlpha),
                 topPadding = contentTopPadding,
-                widthSize = widthSize,
                 onLocationSelectedClicked = onLocationSelectionClicked,
                 viewModel = mainViewModel
             )
@@ -110,7 +102,6 @@ fun MainScreen(
 private fun MainContent(
     modifier: Modifier = Modifier,
     topPadding: Dp = 0.dp,
-    widthSize: WindowWidthSizeClass,
     onLocationSelectedClicked: () -> Unit,
     viewModel: MainViewModel
 ) {
@@ -118,9 +109,8 @@ private fun MainContent(
     Column(modifier = modifier) {
         Spacer(Modifier.padding(top = topPadding))
         Dashboard(
-            widthSize = widthSize,
-            modifier = modifier,
             onLocationClicked = onLocationSelectedClicked,
+            modifier = modifier,
             viewModel = viewModel
         )
     }

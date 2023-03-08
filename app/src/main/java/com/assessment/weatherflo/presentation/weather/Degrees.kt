@@ -1,4 +1,4 @@
-package com.assessment.weatherflo.presentation.dashboard
+package com.assessment.weatherflo.presentation.weather
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row

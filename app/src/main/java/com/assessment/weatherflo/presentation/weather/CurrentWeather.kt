@@ -1,4 +1,4 @@
-package com.assessment.weatherflo.presentation.dashboard
+package com.assessment.weatherflo.presentation.weather
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
