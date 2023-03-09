@@ -12,4 +12,10 @@
     <string name="wind">Wind</string>
     <string name="degrees" translatable="false">%1$d\u00B0</string>
     <string name="degrees_c" translatable="false">%1$s\u2103</string>
+
+    <string name="history">History</string>
+    <string name="clear_all">Clear all</string>
+    <string name="result">Result</string>
+    <string name="no_result">No result</string>
+    <string name="no_history">No history</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.assessment.weatherflo.data.remote.forecast
+package com.assessment.weatherflo.data.remote.dto.forecast
 
 
 import com.assessment.weatherflo.domain.entity.forecast.ForecastRecord

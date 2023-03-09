@@ -11,10 +11,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.assessment.weatherflo.R
+import com.assessment.weatherflo.core.functional.Units
 import com.assessment.weatherflo.domain.entity.weather.WeatherRecord
 
 @Composable
 fun CurrentWeather(
+    state: WeatherState,
     modifier: Modifier,
     currentWeather: WeatherRecord
 ) {
@@ -38,13 +40,14 @@ fun CurrentWeather(
         ) {
             Text(
                 text = stringResource(
-                    id = R.string.celsius_high_low,
+                    id = if (state.units == Units.Metric.value) R.string.celsius_high_low else R.string.fahrenheit_high_low,
                     currentWeather.tempMax,
                     currentWeather.tempMin,
                 ),
             )
 
             Degrees(
+                state,
                 currentWeather = currentWeather.weatherType.desc,
                 currentTemp = currentWeather.temp,
             )
@@ -59,7 +62,7 @@ fun CurrentWeather(
                 iconId = R.drawable.ic_wind,
                 title = stringResource(id = R.string.wind),
                 description = stringResource(
-                    id = R.string.meter_per_second,
+                    if (state.units == Units.Metric.value) R.string.meter_per_second else R.string.miles_per_hour,
                     currentWeather.windSpeed
                 ),
             )

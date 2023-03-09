@@ -12,7 +12,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavBackStackEntry
 import com.assessment.weatherflo.presentation.forecast.Forecast
+import com.assessment.weatherflo.presentation.main.MainViewModel
 import com.assessment.weatherflo.presentation.weather.Weather
 
 enum class DashboardScreen {
@@ -22,9 +24,11 @@ enum class DashboardScreen {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Dashboard(
+    mainViewModel: MainViewModel,
     modifier: Modifier = Modifier,
-    onLocationClicked: () -> Unit
-) {
+    onLocationSelectedClicked: (Int) -> Unit,
+    backStackEntry: NavBackStackEntry,
+    ) {
     var tabSelected by rememberSaveable { mutableStateOf(DashboardScreen.Weather) }
 
     Scaffold(
@@ -32,9 +36,11 @@ fun Dashboard(
         topBar = { DashboardTabBar(tabSelected, onTabSelected = { tabSelected = it }) },
     ) { contentPadding ->
         DashboardContent(
+            mainViewModel = mainViewModel,
             modifier = Modifier.padding(contentPadding),
             tabSelected = tabSelected,
-            onLocationSelectionClicked = onLocationClicked,
+            onLocationSelectedClicked = { onLocationSelectedClicked(it) },
+            backStackEntry
         )
     }
 }
@@ -44,9 +50,11 @@ private const val ANIMATED_CONTENT_ANIMATION_DURATION = 300
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun DashboardContent(
+    mainViewModel: MainViewModel,
     modifier: Modifier,
     tabSelected: DashboardScreen,
-    onLocationSelectionClicked: () -> Unit
+    onLocationSelectedClicked: (Int) -> Unit,
+    backStackEntry: NavBackStackEntry
 ) {
     AnimatedContent(
         targetState = tabSelected,
@@ -68,15 +76,19 @@ fun DashboardContent(
     ) { targetState ->
         when (targetState) {
             DashboardScreen.Weather -> Weather(
-                modifier,
+                mainViewModel = mainViewModel,
+                modifier = modifier,
                 contentUpdates = ContentUpdates(
-                    onLocationSelectionClicked = onLocationSelectionClicked,
+                    onLocationSelectedClicked = { onLocationSelectedClicked(it) },
+                    backStackEntry = backStackEntry
                 )
             )
             DashboardScreen.Forecast -> Forecast(
-                modifier,
+                mainViewModel = mainViewModel,
+                modifier = modifier,
                 contentUpdates = ContentUpdates(
-                    onLocationSelectionClicked = onLocationSelectionClicked,
+                    onLocationSelectedClicked = { onLocationSelectedClicked(it) },
+                    backStackEntry = backStackEntry,
                 )
             )
         }
@@ -84,5 +96,6 @@ fun DashboardContent(
 }
 
 data class ContentUpdates(
-    val onLocationSelectionClicked: () -> Unit
+    val onLocationSelectedClicked: (Int) -> Unit,
+    val backStackEntry: NavBackStackEntry
 )

@@ -1,6 +1,7 @@
 package com.assessment.weatherflo.presentation.forecast
 
 import android.Manifest
+import android.location.Location
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -16,34 +17,65 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewModelScope
 import com.assessment.weatherflo.R
+import com.assessment.weatherflo.core.functional.Constants
+import com.assessment.weatherflo.domain.entity.cities.CityEntity
 import com.assessment.weatherflo.domain.entity.forecast.ForecastData
 import com.assessment.weatherflo.presentation.components.FullScreenLoading
 import com.assessment.weatherflo.presentation.dashboard.ContentUpdates
+import com.assessment.weatherflo.presentation.dashboard.DashboardScreen
+import com.assessment.weatherflo.presentation.main.MainViewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
-import kotlinx.coroutines.Dispatchers
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
 @Composable
-fun Forecast(modifier: Modifier, viewModel: ForecastViewModel = hiltViewModel(), contentUpdates: ContentUpdates) {
-    val state = viewModel.state
+fun Forecast(mainViewModel: MainViewModel, modifier: Modifier, contentUpdates: ContentUpdates) {
+    val state = mainViewModel.forecastState
     val locationPermissionState = rememberMultiplePermissionsState(
         listOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
     ) { permissions ->
+        if (permissions.all { it.value }) mainViewModel.getCurrentLocationForecast()
+    }
+
+
+    LaunchedEffect(state) {
+        val requestPermission = state.isRequestPermission
+
         when {
-            permissions.all { it.value } -> viewModel.getCurrentLocationForecast()
-            else -> viewModel.permissionIsNotGranted()
+            requestPermission -> {
+                when {
+                    locationPermissionState.allPermissionsGranted -> mainViewModel.getCurrentLocationForecast()
+                    else -> locationPermissionState.launchMultiplePermissionRequest()
+                }
+            }
+
+            else -> return@LaunchedEffect
+        }
+        mainViewModel.cleanForecastEvent()
+    }
+
+    LaunchedEffect(Unit) {
+        if (contentUpdates.backStackEntry.savedStateHandle.contains(Constants.Key.FORECAST_LOCATION)) {
+            val keyData = contentUpdates.backStackEntry.savedStateHandle.get<Boolean>(Constants.Key.FORECAST_LOCATION) ?: false
+            if (keyData) mainViewModel.resetForecastPermission()
         }
     }
 
-    LaunchedEffect(Unit, Dispatchers.Default) {
-        locationPermissionState.launchMultiplePermissionRequest()
+    LaunchedEffect(Unit) {
+        if (contentUpdates.backStackEntry.savedStateHandle.contains(Constants.Key.FORECAST_SELECT)) {
+            val cityEntity = contentUpdates.backStackEntry.savedStateHandle.get<CityEntity>(Constants.Key.FORECAST_SELECT) ?: CityEntity()
+            mainViewModel.getForecast(mainViewModel.viewModelScope, Location("").apply {
+                latitude = cityEntity.lat
+                longitude = cityEntity.lon
+            })
+        }
     }
+
     Column(modifier = modifier) {
         Card(
-            onClick = contentUpdates.onLocationSelectionClicked,
+            onClick = { contentUpdates.onLocationSelectedClicked(DashboardScreen.Forecast.ordinal) },
             shape = RoundedCornerShape(10.dp),
             elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
             colors = CardDefaults.cardColors(containerColor = Color.Transparent),
@@ -71,7 +103,7 @@ fun Forecast(modifier: Modifier, viewModel: ForecastViewModel = hiltViewModel(),
         state.data?.let { data ->
             ForecastContent(
                 forecastData = data.weatherList,
-                onClickExpandedItem = { viewModel.onClickExpandedItem(it) }
+                onClickExpandedItem = { mainViewModel.onClickExpandedItem(it) }
             )
         }
     }

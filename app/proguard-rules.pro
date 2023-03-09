@@ -19,3 +19,47 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+-keepclassmembers class com.assessment.weatherflo.** {
+    *** Companion;
+    public ** component1();
+        <fields>;
+}
+
+-keep class kotlin.Metadata { *; }
+-keepclassmembers class kotlin.Metadata {
+    public <methods>;
+}
+
+# Retrofit
+-keep class retrofit.** { *; }
+-keepclasseswithmembers class * {
+    @retrofit2.* <methods>;
+}
+-keepattributes Signature
+-keepattributes Exceptions
+
+# OkHttp
+-keep class okhttp3.** { *; }
+-keep interface okhttp3.** { *; }
+-dontwarn okhttp3.**
+-dontwarn javax.annotation.**
+-keepnames class okhttp3.internal.publicsuffix.PublicSuffixDatabase
+
+# Okio
+-keep class okio.** { *; }
+
+# Gson
+-keep class com.google.gson.** { *; }
+-keep class com.google.gson.stream.** { *; }
+-keepattributes EnclosingMethod
+-keepattributes InnerClasses
+-keepattributes Signature
+-keepattributes Annotation
+-keepattributes SourceFile
+
+
+# Joda-Time
+-keep class org.joda.** { *; }
+
+# Apache Commons
+-keep class org.apache.commons.logging.** { *; }

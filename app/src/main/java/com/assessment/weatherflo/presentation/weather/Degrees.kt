@@ -11,9 +11,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.LastBaseline
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.assessment.weatherflo.core.functional.Units
 
 @Composable
 fun Degrees(
+    state: WeatherState,
     modifier: Modifier = Modifier,
     currentTemp: String,
     currentWeather: String
@@ -32,7 +34,7 @@ fun Degrees(
             Column(modifier = Modifier.alignBy(LastBaseline)) {
                 Text(text = "O", modifier = Modifier.padding(bottom = 10.dp))
 
-                Text(text = "C")
+                Text(text = if (state.units == Units.Metric.value) "C" else "F")
             }
         }
 

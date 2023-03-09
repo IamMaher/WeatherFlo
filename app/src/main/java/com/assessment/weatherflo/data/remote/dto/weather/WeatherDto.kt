@@ -39,6 +39,7 @@ fun WeatherDto.toWeatherRecord(): WeatherRecord {
         windSpeed = wind.speed,
         humidity = main.humidity,
         city = name,
+        coord = coord,
         weatherType = WeatherType.fromWMO(weather.first().icon.substring(0, 2), weather.first().description)
     )
 }

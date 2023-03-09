@@ -1,5 +1,6 @@
 package com.assessment.weatherflo.domain.entity.weather
 
+import com.assessment.weatherflo.data.remote.dto.weather.Coord
 import com.assessment.weatherflo.domain.entity.WeatherType
 
 data class WeatherRecord(
@@ -12,5 +13,6 @@ data class WeatherRecord(
     val windSpeed: Double,
     val humidity: Int,
     val city: String,
+    val coord: Coord,
     val weatherType: WeatherType
 )

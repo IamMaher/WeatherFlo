@@ -1,6 +1,8 @@
 package com.assessment.weatherflo.core.di
 
 import android.app.Application
+import androidx.room.Room
+import com.assessment.weatherflo.data.local.WeatherDatabase
 import com.assessment.weatherflo.data.remote.WeatherApi
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -34,5 +36,11 @@ object AppModule {
     @Singleton
     fun provideFusedLocationProviderClient(app: Application): FusedLocationProviderClient {
         return LocationServices.getFusedLocationProviderClient(app)
+    }
+
+    @Provides
+    @Singleton
+    fun provideWeatherDatabase(app: Application): WeatherDatabase {
+        return Room.databaseBuilder(app, WeatherDatabase::class.java, "weather.db").build()
     }
 }
