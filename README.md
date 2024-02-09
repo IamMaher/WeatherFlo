@@ -3,9 +3,19 @@
 The Architecture Chosen for the app is MVI and SOLID principles are applied
 
 ## Screenshots
-<img src="screenshots/Screenshot_Dashboard.png"/>
-<img src="screenshots/Screenshot_Forecast.png"/>
-<img src="screenshots/Screenshot_Search.png"/>
+
+<table align="center">
+  <tr>
+    <th>Dashboard (Dashboard)</th>
+    <th>Forecast (Forecast)</th>
+    <th>Search (Search)</th>
+  </tr>
+  <tr>
+    <td align="center"><img src="screenshots/Screenshot_Dashboard.png" width="200" alt="Dashboard (Dashboard)"></td>
+    <td align="center"><img src="screenshots/Screenshot_Forecast.png" width="200" alt="Forecast (Forecast)"></td>
+    <td align="center"><img src="screenshots/Screenshot_Search.png" width="200" alt="Search (Search)"></td>
+  </tr>
+</table>
 
 ## Libraries
 1.  Jetpack Compose (UI)
