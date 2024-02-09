@@ -1,6 +1,3 @@
-# WeatherFlo
-This a submission for TransFlo Assessment 
-This README.md is to briefly explain the progress done
 
 ## Architecture
 The Architecture Chosen for the app is MVI and SOLID principles are applied
