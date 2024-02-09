@@ -3,7 +3,9 @@ package com.assessment.weatherflo.data.remote.dto.cities
 
 import com.assessment.weatherflo.domain.entity.cities.CityEntity
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 data class CityDto(
     @field:Json(name = "country") val country: String ="",
     @field:Json(name = "lat") val lat: Double = -1.0,

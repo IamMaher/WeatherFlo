@@ -6,7 +6,9 @@ import com.assessment.weatherflo.core.functional.Constants
 import com.assessment.weatherflo.domain.entity.WeatherType
 import com.assessment.weatherflo.domain.entity.weather.WeatherRecord
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 data class WeatherDto(
     @field:Json(name = "base") val base: String = "",
     @field:Json(name = "clouds") val clouds: Clouds,
@@ -16,7 +18,7 @@ data class WeatherDto(
     @field:Json(name = "id") val id: Int = -1,
     @field:Json(name = "main") val main: Main,
     @field:Json(name = "name") val name: String = "",
-    @field:Json(name = "snow") val snow: Snow,
+    @field:Json(name = "snow") val snow: Snow?,
     @field:Json(name = "sys") val sys: Sys,
     @field:Json(name = "timezone") val timezone: Int = -1,
     @field:Json(name = "visibility") val visibility: Int = -1,

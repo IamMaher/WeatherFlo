@@ -1,7 +1,9 @@
 package com.assessment.weatherflo.data.remote.dto.weather
 
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 data class Sys(
     @field:Json(name = "country") val country: String = "",
     @field:Json(name = "id") val id: Int = -1,

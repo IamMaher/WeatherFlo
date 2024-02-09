@@ -2,7 +2,9 @@ package com.assessment.weatherflo.data.remote.dto.weather
 
 
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 data class Main(
     @field:Json(name = "feels_like") val feelsLike: Double = -1.0,
     @field:Json(name = "grnd_level") val grndLevel: Int = -1,

@@ -70,10 +70,12 @@ class MainViewModel @Inject constructor(
             Units.Imperial.value -> weatherState = weatherState.copy(units = Units.Metric.value)
         }
 
-        getWeather(viewModelScope, Location("").apply {
-            latitude = weatherState.data!!.coord.lat
-            longitude = weatherState.data!!.coord.lon
-        })
+        weatherState.data?.let {
+            getWeather(viewModelScope, Location("").apply {
+                latitude = it.coord.lat
+                longitude = it.coord.lon
+            })
+        }
     }
 
     private fun handleWeather(data: WeatherRecord?) {

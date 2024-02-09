@@ -4,14 +4,16 @@ package com.assessment.weatherflo.data.remote.dto.forecast
 import com.assessment.weatherflo.domain.entity.WeatherType
 import com.assessment.weatherflo.domain.entity.forecast.ForecastData
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 data class WeatherList(
     @field:Json(name = "clouds") val clouds: Clouds,
     @field:Json(name = "dt") val dt: Long = -1,
     @field:Json(name = "dt_txt") val dtTxt: String = "",
     @field:Json(name = "main") val main: Main,
     @field:Json(name = "pop") val pop: Double = -1.0,
-    @field:Json(name = "rain") val rain: Rain,
+    @field:Json(name = "rain") val rain: Rain?,
     @field:Json(name = "sys") val sys: Sys,
     @field:Json(name = "visibility") val visibility: Int = -1,
     @field:Json(name = "weather") val weather: List<Weather>,

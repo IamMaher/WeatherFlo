@@ -6,6 +6,8 @@ import com.assessment.weatherflo.data.local.WeatherDatabase
 import com.assessment.weatherflo.data.remote.WeatherApi
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,13 +24,21 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideWeatherApi(): Retrofit {
+    fun provideWeatherApi(moshi: Moshi): Retrofit {
         return Retrofit.Builder()
             .baseUrl(WeatherApi.BASE_URL)
-            .addConverterFactory(MoshiConverterFactory.create())
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
             .client(
-                OkHttpClient.Builder().addInterceptor(HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BASIC }).build()
+                OkHttpClient.Builder().addInterceptor(HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }).build()
             )
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideMoshi(): Moshi {
+        return Moshi.Builder()
+            .addLast(KotlinJsonAdapterFactory())
             .build()
     }
 

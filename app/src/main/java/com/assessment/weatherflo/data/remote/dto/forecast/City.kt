@@ -2,7 +2,9 @@ package com.assessment.weatherflo.data.remote.dto.forecast
 
 
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 data class City(
     @field:Json(name = "coord") val coord: Coord = Coord(),
     @field:Json(name = "country") val country: String = "",
