@@ -1,6 +1,6 @@
 
 ## Architecture
-The Architecture Chosen for the app is MVI and SOLID principles are applied
+The Architecture Chosen for the app is MVI and SOLID principles are applied. an assessment by Ahmed Mourad
 
 ## Screenshots
 
